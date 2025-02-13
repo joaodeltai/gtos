@@ -64,67 +64,67 @@ interface BiographyFormProps {
 
 const questions = [
   {
-    field: 'nameAndRole',
+    field: 'nameAndRole' as const,
     label: 'Qual é o seu nome e cargo?',
     placeholder: 'Ex: João Silva - Gestor de Tráfego'
   },
   {
-    field: 'companyName',
+    field: 'companyName' as const,
     label: 'Qual é o nome da sua empresa?',
     placeholder: 'Ex: Agência Digital Silva'
   },
   {
-    field: 'niche',
+    field: 'niche' as const,
     label: 'Qual seu nicho de atuação?',
     placeholder: 'Ex: E-commerce de moda ou "nicho aberto"'
   },
   {
-    field: 'helpDescription',
+    field: 'helpDescription' as const,
     label: 'Como você ajuda seus clientes?',
     placeholder: 'Descreva como seu trabalho impacta seus clientes'
   },
   {
-    field: 'services',
+    field: 'services' as const,
     label: 'Quais são os principais serviços ou produtos que você oferece?',
     placeholder: 'Liste seus principais serviços/produtos'
   },
   {
-    field: 'experience',
+    field: 'experience' as const,
     label: 'Quantos anos de experiência você tem no mercado?',
     placeholder: 'Ex: 5 anos'
   },
   {
-    field: 'achievements',
+    field: 'achievements' as const,
     label: 'Quais são suas principais conquistas profissionais?',
     placeholder: 'Ex: Faturamento, número de clientes, prêmios, cases de sucesso'
   },
   {
-    field: 'recognition',
+    field: 'recognition' as const,
     label: 'Você já apareceu na mídia, foi premiado ou recebeu reconhecimento público?',
     placeholder: 'Se sim, descreva. Se não, deixe em branco ou escreva "não"'
   },
   {
-    field: 'differential',
+    field: 'differential' as const,
     label: 'Tem algum diferencial que faz seu serviço ser único no mercado?',
     placeholder: 'Descreva o que torna seu serviço especial'
   },
   {
-    field: 'bestClients',
+    field: 'bestClients' as const,
     label: 'Quem são seus melhores clientes hoje?',
     placeholder: 'Descreva o perfil, segmento, porte da empresa, ticket médio, etc.'
   },
   {
-    field: 'preferredClients',
+    field: 'preferredClients' as const,
     label: 'Que tipo de cliente você mais gosta de atender e por quê?',
     placeholder: 'Descreva seu cliente ideal'
   },
   {
-    field: 'avoidClients',
+    field: 'avoidClients' as const,
     label: 'Existe algum cliente ou segmento que você quer evitar?',
     placeholder: 'Se sim, descreva. Se não, deixe em branco ou escreva "não"'
   },
   {
-    field: 'additionalInfo',
+    field: 'additionalInfo' as const,
     label: 'Preencha abaixo com informações sobre você e sua empresa que podem ser pertinentes para desenvolver seu ICP:',
     placeholder: 'Informações adicionais (máximo 500 caracteres)',
     type: 'textarea'
@@ -145,7 +145,7 @@ export function BiographyForm({ onBiographyComplete, hasExistingBiography }: Bio
   const isLastQuestion = step === questions.length - 1
 
   const currentSchema = z.object({
-    [currentQuestion.field]: formSchema.shape[currentQuestion.field]
+    [currentQuestion.field]: formSchema.shape[currentQuestion.field as keyof typeof formSchema.shape]
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
