@@ -45,18 +45,28 @@ export async function POST(req: Request) {
         throw new Error("OpenAI não retornou conteúdo")
       }
 
-      return NextResponse.json({ icp })
+      // Garantir que a resposta seja um JSON válido
+      return NextResponse.json({ 
+        success: true,
+        icp: icp.trim() 
+      })
     } catch (openaiError: any) {
       console.error("Erro na chamada da OpenAI:", openaiError)
       return NextResponse.json(
-        { error: `Erro na chamada da OpenAI: ${openaiError.message}` },
+        { 
+          success: false, 
+          error: openaiError?.message || "Erro ao gerar ICP" 
+        },
         { status: 500 }
       )
     }
   } catch (error: any) {
-    console.error("Erro ao processar requisição:", error)
+    console.error("Erro geral:", error)
     return NextResponse.json(
-      { error: `Erro ao processar requisição: ${error.message}` },
+      { 
+        success: false, 
+        error: error?.message || "Erro interno do servidor" 
+      },
       { status: 500 }
     )
   }

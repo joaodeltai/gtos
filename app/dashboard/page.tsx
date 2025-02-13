@@ -15,7 +15,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { BiographyForm } from "@/components/biography-form"
 import { Card } from "@/components/ui/card"
-import { ICP_SYSTEM_PROMPT } from "@/lib/prompts"
 import { saveIcpToHistory } from "@/lib/icp-history"
 
 export default function DashboardPage() {
@@ -130,8 +129,7 @@ export default function DashboardPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          biography: formattedBiography,
-          systemPrompt: ICP_SYSTEM_PROMPT,
+          biography: formattedBiography
         }),
       })
 
@@ -141,6 +139,10 @@ export default function DashboardPage() {
       }
 
       const data = await response.json()
+      
+      if (!data.success) {
+        throw new Error(data.error || "Erro ao gerar ICP")
+      }
       
       // Salvar o ICP gerado no perfil do usuário
       const { error: updateError } = await supabase
