@@ -1,14 +1,5 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { DefaultSession, Session } from "next-auth"
-
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string
-    } & DefaultSession["user"]
-  }
-}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,14 +29,11 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async session({ session, token }): Promise<Session> {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub as string
-        }
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub as string
       }
+      return session
     }
   }
 }
