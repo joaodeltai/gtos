@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { DefaultSession } from "next-auth"
+import { DefaultSession, Session } from "next-auth"
 
 declare module "next-auth" {
   interface Session {
@@ -19,8 +19,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Aqui você deve implementar sua lógica de autenticação
-        // Por enquanto, retornando um usuário mock para teste
         if (credentials?.email && credentials?.password) {
           return {
             id: "1",
@@ -40,11 +38,14 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.sub as string
+    async session({ session, token }): Promise<Session> {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub as string
+        }
       }
-      return session
     }
   }
 }
