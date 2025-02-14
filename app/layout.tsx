@@ -10,8 +10,8 @@ const sora = Sora({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "GTOS",
-  description: "Gestão de Trabalhos e Ordens de Serviço",
+  title: "gestorOS",
+  description: "Sistema Operacional para Gestores de tráfego",
   icons: {
     icon: '/logo.svg',
   },
